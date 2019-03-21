@@ -1,0 +1,35 @@
+ul li{
+  list-style-type:none;
+}
+/*页面样式*/
+.ant-carousel .slick-slide { text-align: center;line-height: 10px;background: #364d79;overflow: hidden;}
+.img-broadcast{ width: 250px;height: 320px;}
+.carousel-img-broadcast{ text-align: center;padding: 5px;}
+.news-content{ font-size: 16px;color: #404040;margin-top: 5px;}
+.news-content-bold{ margin-top: 10px;font-weight: bold; }
+.news-content-bold:hover{color:#ff3333;cursor: pointer;}
+.div-health-parent{ border: 1px solid #f6f6f6;}
+.div-health{ width: 140px;height:120px;float: left;overflow: hidden;display: inline-block;margin: 10px 7px 0px; }
+.div-health-img{ width: 140px;height:80px; }
+.div-health-h3{ background: #404040;color: #ffffff; font-size: 13px; }
+.div-health-ul-parent{ clear: both;}
+.div-health-ul-parent-list{ padding: 0px; }
+.news-item-li{ font-size: 13px;color: #95A37F;margin: 5px 0px;}
+
+/*详情页*/
+.news-title{font-size: 26px;font-weight: bold;margin:20px 0;}
+.news-title-footer{color: #c6d8a8;font-size: 13px;}
+.new-tile-image{width:auto;height: 100%;margin:20px 0px;}
+.content-intro-title{margin: 20px 0;color:#252525;}
+.content-intro{font-size:18px;}
+.news-detail-content{border-top: 1px solid #ddd}
+.news-detail-image{width:45px;height:30px;}
+.news-detail-font{font-size:14px;margin-left:5px;line-height:60px;}
+.list-li{border-bottom: 1px solid #e5e5e5;width:100px;}
+.special-topic{background:#fafafa;color: #252525;height:50px;margin-top:20px;}
+.special-topic-content{font-size:16px;font-weight: bold;position: relative;top:10px;margin-left: 15px;}
+.special-topic:hover, .special-topic:active {color: #ff3333;}
+.special-title{ margin: 17px 0 11px;font-size: 18px;font-family:"\5fae\8f6f\96c5\9ed1";font-weight: normal;color:#252525}
+.special-topic-ul{padding:0px;}
+.special-topic-li{background: none; padding: 0;height: 35px;font-size: 14px; line-height: 34px; border-bottom: 1px solid #f0f0f0;}
+.special-topic-li-title{font-size:18px;}
