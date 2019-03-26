@@ -13,7 +13,6 @@ export default {
   // 异步操作
   effects: {
     *changeTabRouter({payload}, { call, put } ){
-      debugger
       yield put(routerRedux.push({ pathname: payload.activeKey }))
     },
   },

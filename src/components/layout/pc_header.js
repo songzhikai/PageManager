@@ -12,31 +12,20 @@ const TabPane = Tabs.TabPane;
 class PCHeader extends React.Component {
   constructor(props){
     super(props);
-    this.onChange = this.onChange.bind(this);
-    this.remove = this.remove.bind(this);
-    this.clickMenuEvent = this.clickMenuEvent.bind(this);
+    // this.clickMenuEvent = this.clickMenuEvent.bind(this);
     this.onTabClick = this.onTabClick.bind(this);
     this.state={
       activeKey: '',
       tabPanes:[]
     };
   }
-  handleClick(e){
-    this.setState({
-      activeKey: '/pages/'+e.key,
-    });
-
-    //调用model中的方法
-    this.props.changeTabRouter('/pages/'+e.key);
-    this.props.currentTabClick('/pages/'+e.key);
-  }
-  onChange(activeKey){
+  onChange = (activeKey) => {
     this.setState({activeKey: activeKey})
   }
   onEdit = (targetKey, action) => {
     this[action](targetKey);
   }
-  remove(targetKey){
+  remove = (targetKey) => {
     let activeKey = this.state.activeKey;
     let lastIndex;
     this.state.tabPanes.forEach((pane, i) => {
@@ -56,10 +45,10 @@ class PCHeader extends React.Component {
     this.setState({ tabPanes, activeKey });
     this.props.editActiveKeyPane({ tabPanes, activeKey })
   }
-  componentWillMount(){
+  componentWillMount = () => {
     PubSub.unsubscribe('clickMenuEvent');
   }
-  render() {
+  render = () => {
     return (
       <div className={styles['top_menu_bg']}>
         <Tabs
@@ -75,14 +64,14 @@ class PCHeader extends React.Component {
       </div>
     );
   }
-  componentDidMount(){
+  componentDidMount = () => {
     let _this = this
     PubSub.subscribe('clickMenuEvent', this.clickMenuEvent);
   }
-  clickMenuEvent(topic, data){
+  clickMenuEvent = (topic, data) => {
     this.setState({activeKey: data, tabPanes: this.props.tabPanes})
   }
-  onTabClick(path){
+  onTabClick = (path) => {
     this.setState({activeKey: path});
     this.props.changeTabRouter(path);
   }
