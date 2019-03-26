@@ -10,6 +10,7 @@
     "antd": "^3.7.2",
     "cmn-utils": "^1.0.9",
     "dva": "^2.3.1",
+    "fetch-mock": "^7.3.1",
     "mockjs": "^1.0.1-beta3",
     "pubsub-js": "^1.7.0",
     "react": "^16.2.0",

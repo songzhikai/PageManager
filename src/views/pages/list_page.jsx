@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Form, Input, Popconfirm, Table, Pagination} from 'antd';
 import {connect} from 'dva';
 import './views_pages.css'
+import $$ from 'cmn-utils'
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 
@@ -94,21 +95,17 @@ class ListPage extends React.Component {
   constructor(props) {
     super(props);
     const data = [];
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        key: i.toString(),
-        name: `Edrward ${i}`,
-        age: 3 + i%20,
-        address: `London Park no. ${i}`,
-      });
-    }
+    // for (let i = 0; i < 100; i++) {
+    //   data.push({
+    //     key: i.toString(),
+    //     name: `Edrward ${i}`,
+    //     age: 3 + i%20,
+    //     address: `London Park no. ${i}`,
+    //   });
+    // }
     this.state = {
       dataSource: data,
       count: 100,
-      sortedInfo: {
-        order: 'descend',
-        columnKey: 'age'
-      }
     };
   }
 
@@ -209,14 +206,16 @@ class ListPage extends React.Component {
           dataSource={dataSource}
           columns={columns}
           pagination={{position: 'bottom', size:"small", showSizeChanger: true, showQuickJumper: true}}
-          onHeaderRow={(column) => {
-            return {
-              onClick: () => {console.log(column)},        // 点击表头行
-            };
-          }}
         />
       </div>
     );
+  }
+  componentDidMount = () => {
+    return $$.post('/pages/getList', {})
+      .then(resp => {
+        this.setState({dataSource: resp.data.list})
+      })
+      .catch(e => console.error(e));
   }
 }
 
