@@ -9,6 +9,7 @@ import PCHeader from "./pc_header";
 import PCFooter from "./pc_footer";
 import PCLeft from "./pc_left";
 import Routes from '../../routes/all';
+import $$ from 'cmn-utils'
 
 class Layout extends React.Component {
     constructor(){
@@ -24,7 +25,9 @@ class Layout extends React.Component {
 
     }
     render() {
-        return (
+      let user = $$.getStore('user');
+      return (
+        user?
           <div>
             <Row>
               <Col span={6}>
@@ -33,11 +36,15 @@ class Layout extends React.Component {
               <Col span={18}>
                 <PCHeader/>
                 <Routes/>
-                {/*<PCFooter/>*/}
               </Col>
             </Row>
           </div>
-        );
+          :
+          <div>
+            <Routes/>
+          </div>
+
+      );
     }
 }
 

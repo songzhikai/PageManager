@@ -10,6 +10,7 @@ const app = dva();
 // app.use({});
 
 // 3. Model
+app.model(require('./models/loginModel').default);
 app.model(require('./models/pageModel').default);
 app.model(require('./models/layoutModel').default);
 
