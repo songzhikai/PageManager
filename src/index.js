@@ -9,6 +9,7 @@ const app = dva();
 
 // 3. Model
 app.model(require('./models/pageModel').default);
+app.model(require('./models/layoutModel').default);
 
 // 4. Router
 app.router(require('./routes/index').default);

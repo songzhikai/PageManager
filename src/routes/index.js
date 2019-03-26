@@ -6,12 +6,11 @@ import Layout from '../components/layout/layout';
 const { ConnectedRouter } = routerRedux;
 
 function RouterIndex({ history, app, location }) {
-  const routes = paths;
   return (
     <ConnectedRouter history={history}>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/news/pages/index" push />} />
-        <Route path="/news/pages" component={Layout}/>
+        <Route exact path="/" render={() => <Redirect to="/pages/index" push />} />
+        <Route path="/pages" component={Layout}/>
       </Switch>
     </ConnectedRouter>
   );

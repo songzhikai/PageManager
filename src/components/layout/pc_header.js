@@ -1,69 +1,110 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Menu, Icon, Row, Col } from 'antd';
+import { Tabs, Button, Menu, Icon, Row, Col } from 'antd';
 import { Router, Route, Switch, Redirect, Link} from 'dva/router';
 import { connect } from 'dva';
+import styles from './layout.css'
+import PubSub from 'pubsub-js'
+import layoutModel from '../../models/layoutModel'
+import $$ from 'cmn-utils';
+
+const TabPane = Tabs.TabPane;
 
 class PCHeader extends React.Component {
-    constructor(){
-        super();
-        this.handleClick = this.handleClick.bind(this);
-        this.state={
-            current: 'index'
-        }
-    }
-    handleClick(e){
-        this.setState({
-            current: e.key,
-        });
+  constructor(props){
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.remove = this.remove.bind(this);
+    this.clickMenuEvent = this.clickMenuEvent.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
+    this.state={
+      activeKey: '',
+      tabPanes:[]
+    };
+  }
+  handleClick(e){
+    this.setState({
+      activeKey: '/pages/'+e.key,
+    });
 
-        //调用store中的方法
-        this.props.changeTab('/news/pages/'+e.key);
-        this.props.currentTabClick(e.key);
-        // console.log('getTabName', this.props.tabName);
+    //调用model中的方法
+    this.props.changeTabRouter('/pages/'+e.key);
+    this.props.currentTabClick('/pages/'+e.key);
+  }
+  onChange(activeKey){
+    this.setState({activeKey: activeKey})
+  }
+  onEdit = (targetKey, action) => {
+    this[action](targetKey);
+  }
+  remove(targetKey){
+    let activeKey = this.state.activeKey;
+    let lastIndex;
+    this.state.tabPanes.forEach((pane, i) => {
+      if (pane.key === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    const tabPanes = this.state.tabPanes.filter(pane => pane.key !== targetKey);
+    if (tabPanes.length) {
+      if (lastIndex >= 0) {
+        activeKey = tabPanes[lastIndex].key;
+      } else {
+        activeKey = tabPanes[0].key;
+      }
     }
-    render() {
-        return (
-            <Row>
-                <Col span={2}></Col>
-                <Col span={20}>
-                    <Menu mode="horizontal" defaultSelectedKeys={[this.state.current]} selectedKeys={[this.state.current]} onClick={this.handleClick}>
-                        <Menu.Item key="index">首页</Menu.Item>
-                        <Menu.Item key="phone">手机</Menu.Item>
-                        <Menu.Item key="yule">娱乐</Menu.Item>
-                        <Menu.Item key="tiyu">体育</Menu.Item>
-                        <Menu.Item key="keji">科技</Menu.Item>
-                        <Menu.Item key="shishang">时尚</Menu.Item>
-                        <Menu.Item key="caijing">财经</Menu.Item>
-                        <Menu.Item key="qiche">汽车</Menu.Item>
-                        <Menu.Item key="luyou">旅游</Menu.Item>
-                        <Menu.Item key="fangchan">房产</Menu.Item>
-                        <Menu.Item key="jiankang">健康</Menu.Item>
-                        <Menu.Item key="gongyi">公益</Menu.Item>
-                    </Menu>
-                </Col>
-                <Col span={2}></Col>
-            </Row>
-        );
-    }
+
+    this.setState({ tabPanes, activeKey });
+    this.props.editActiveKeyPane({ tabPanes, activeKey })
+  }
+  componentWillMount(){
+    PubSub.unsubscribe('clickMenuEvent');
+  }
+  render() {
+    return (
+      <div className={styles['top_menu_bg']}>
+        <Tabs
+          hideAdd
+          onChange={this.onChange}
+          activeKey={this.state.activeKey}
+          type="editable-card"
+          onEdit={this.onEdit}
+          onTabClick={this.onTabClick}
+        >
+          {this.state.tabPanes.map(pane => <TabPane tab={pane.title} key={pane.key}></TabPane>)}
+        </Tabs>
+      </div>
+    );
+  }
+  componentDidMount(){
+    let _this = this
+    PubSub.subscribe('clickMenuEvent', this.clickMenuEvent);
+  }
+  clickMenuEvent(topic, data){
+    this.setState({activeKey: data, tabPanes: this.props.tabPanes})
+  }
+  onTabClick(path){
+    this.setState({activeKey: path});
+    this.props.changeTabRouter(path);
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    tabName: state.pageModel.tabName,
+    tabPanes: state.layoutModel.tabPanes,
+    activeKey: state.layoutModel.activeKey,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeTab: (tabName) => {
-      dispatch({type: 'pageModel/changeTab', payload: { tabName: tabName }})
+    changeTabRouter: (tabName) => {
+      dispatch({type: 'layoutModel/changeTabRouter', payload: { activeKey: tabName }})
     },
-    currentTabClick: (tabName) => {
-      dispatch({type: 'pageModel/currentTabClick', payload: { tabName: tabName }})
+    clearTabPanes: () => {
+      dispatch({type: 'layoutModel/clearTabPanes'})
     },
-    getTabName: () => {
-      dispatch({type: 'pageModel/getTabName'})
-    }
+    editActiveKeyPane: (obj) => {
+      dispatch({type: 'layoutModel/editActiveKeyPane', payload: { activeKey: obj.activeKey, tabPanes: obj.tabPanes }})
+    },
   }
 };
 // export default PCHeader;

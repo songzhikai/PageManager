@@ -7,6 +7,7 @@ import styles from './layout.css';
 import PCBar from "./pc_bar";
 import PCHeader from "./pc_header";
 import PCFooter from "./pc_footer";
+import PCLeft from "./pc_left";
 import Routes from '../../routes/all';
 
 class Layout extends React.Component {
@@ -25,10 +26,16 @@ class Layout extends React.Component {
     render() {
         return (
           <div>
-            <PCBar/>
-            <PCHeader/>
-            <Routes/>
-            <PCFooter/>
+            <Row>
+              <Col span={6}>
+                <PCLeft/>
+              </Col>
+              <Col span={18}>
+                <PCHeader/>
+                <Routes/>
+                {/*<PCFooter/>*/}
+              </Col>
+            </Row>
           </div>
         );
     }
