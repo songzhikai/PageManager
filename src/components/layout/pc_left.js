@@ -14,7 +14,6 @@ class PCLeft extends React.Component {
       this.handleClick = this.handleClick.bind(this);
     }
     handleClick(e){
-      console.log('eeeeeeeeeeeeeeee', e)
       //调用store中的方法
       this.props.changeTabRouter('/pages/'+e.key)
       this.props.pushMenuToTabPanes({key: '/pages/'+e.key, title: e.item.props.title});
