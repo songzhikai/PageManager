@@ -14,6 +14,7 @@ class PCLeft extends React.Component {
       this.handleClick = this.handleClick.bind(this);
     }
     handleClick(e){
+      console.log('eeeeeeeeeeeeeeee', e)
       //调用store中的方法
       this.props.changeTabRouter('/pages/'+e.key)
       this.props.pushMenuToTabPanes({key: '/pages/'+e.key, title: e.item.props.title});
@@ -39,6 +40,10 @@ class PCLeft extends React.Component {
                   <Menu.Item key="group" title="分组">
                     分组
                   </Menu.Item>
+                  <SubMenu title="控件">
+                    <Menu.Item key="tree" title="树控件">tree控件</Menu.Item>
+                    <Menu.Item key="modal" title="弹框">modal控件</Menu.Item>
+                  </SubMenu>
                 </MenuItemGroup>
               </SubMenu>
             </Menu>
