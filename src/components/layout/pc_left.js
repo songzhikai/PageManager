@@ -67,5 +67,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
-// export default PCHeader;
 export default connect(mapStateToProps, mapDispatchToProps)(PCLeft);
