@@ -9,11 +9,7 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class PCLeft extends React.Component {
-    constructor(){
-      super();
-      this.handleClick = this.handleClick.bind(this);
-    }
-    handleClick(e){
+    handleClick = (e) => {
       //调用store中的方法
       this.props.changeTabRouter('/pages/'+e.key)
       this.props.pushMenuToTabPanes({key: '/pages/'+e.key, title: e.item.props.title});
