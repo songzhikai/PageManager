@@ -12,8 +12,15 @@ export default {
   // 异步操作
   effects: {
     *login({ payload }, { call, put }) {
-      yield put(routerRedux.replace('/'));
+      yield put(routerRedux.push({pathname: '/pages/login'}))
     },
+    *toHomeRouter({ payload }, { call, put }){
+      yield put(routerRedux.push({pathname: '/'}))
+    },
+    *logout({payload}, {call, put}){
+      $$.removeStore('user')
+      yield put(routerRedux.push({pathname: '/pages/login'}))
+    }
   },
   // 同步操作
   reducers: {
@@ -22,8 +29,19 @@ export default {
     },
     response(state, action) {
       return {...state, ...action.payload};
-    }
+    },
   },
   subscriptions: {
+    setup({ history, dispatch }) {
+      return history.listen(({ pathname }) => {
+        let user = $$.getStore('user')
+        if (pathname == '/pages/login' && !!user) {
+          dispatch({type: 'toHomeRouter'})
+        }
+        if(pathname.indexOf('/pages/') !== -1 && pathname != '/pages/login' && !user){
+          dispatch({type: 'login'})
+        }
+      });
+    }
   },
 }

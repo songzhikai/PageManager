@@ -45,6 +45,9 @@ class PCHeader extends React.Component {
     this.setState({ tabPanes, activeKey });
     this.props.editActiveKeyPane({ tabPanes, activeKey })
   }
+  logout = () => {
+    this.props.logout()
+  }
   componentWillMount = () => {
     PubSub.unsubscribe('clickMenuEvent');
   }
@@ -61,6 +64,7 @@ class PCHeader extends React.Component {
         >
           {this.state.tabPanes.map(pane => <TabPane tab={pane.title} key={pane.key}></TabPane>)}
         </Tabs>
+        <Icon onClick={this.logout} type="logout" style={{position: 'absolute', top: '10px', left: '1100px'}}/>
       </div>
     );
   }
@@ -93,6 +97,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     editActiveKeyPane: (obj) => {
       dispatch({type: 'layoutModel/editActiveKeyPane', payload: { activeKey: obj.activeKey, tabPanes: obj.tabPanes }})
+    },
+    logout: () => {
+      dispatch({type: 'loginModel/logout'})
     },
   }
 };
